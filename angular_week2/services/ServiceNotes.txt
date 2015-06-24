@@ -1,0 +1,116 @@
+Chapter 17 Services
+AngularJS supports the concept of separation of concerns, using services Architicutre. Services are JavaScript
+functions which are responsible in performing specific tasks. The controller and filters can call them in 
+a requirement basis. 
+There are many inbuilt services like:
+$http, $route, $window, $location.Each service is responsible for a specific task:
+
+$http: This is used to make Ajax calls to get the server data.
+$route is used to define the routing information.
+
+
+They Usually start like this
+var mainApp=angular.module("mainApp", []);
+mainApp.factory('MathService', finction(){
+var factory={}
+factory.multiply = function(a, b){
+return a * b;
+}
+return factory;
+})
+
+//Another way to do this is the follwing:
+mainApp.factory('MathService', function(){
+return {
+	:multiply function(a, b){
+	return a * b;
+	}})
+	
+Services usually inject factory iside there scope:
+mainApp.service('CalcService', function(MathService){
+
+this.square=function(a){ //noticed how this is used istead of factory in the factory method. 
+	return MathService.multiply(a, a)
+	}
+});
+
+The example goes here....
+
+Chapter 18. Dependency Injection
+Dependeny injection is a software design in which components are given their dependencies
+instead of hard coding them within the component.This relieves the component from locating the 
+dependency and makes dependencies cofigurable. 
+This makes compoent reusable, easily maintained, and testable.
+AngularJS  provides Dependency Injection mechanism. 
+* Value
+* Factory
+* Service
+* Provider
+* Constant
+Value is a simple JavaScript object, which is required to pass values to the controller.
+during config phase(config phase is when AngularJS bootstraps itself)
+//define a module
+var mainApp=angualr.module("mainApp", []);
+//create a value as "defaltInput" andpass it data.
+mainApp.value("defaultInput", 5);
+
+// Now you can injedt the value in the controller using its name "dafaultInput"
+mainApp.controller('CalcController', function($scope, CalcService, defaultIput){
+$scope.number=defaultInput;
+$scope.result=CalcService.square($scope.number);
+
+$scope.square = function(){
+
+$scope.result=CalcService.square($scope.number);
+}});
+Factory is a function which is used to return a value. It creates a value on demand whenever
+a service or a controller requires. It generally uses a factory function to return calcualte and return
+a value. 
+// define a module
+var mainApp = angualr.module("mainApp", [])
+
+//create your factory
+mainApp.factory('MathService', function(){
+var factory={}
+factory.multiply = function(a,b){
+return a * b;
+});
+
+//inject the factory into the service
+mainApp.service('CalcService', function(MathService){
+this.square = function(a){
+	return MathService.multiply(a,a);
+	}
+	});
+	
+Service is a singleton Javascript object containing a set of functions to perform
+certain tasks.They are crated using the service class and then injected into the controller. 
+
+//we now inject the CalcService into the controller
+mainApp.controller('CalcController', function ($scope, CalcService){
+$scope.number = defualtInput
+$scope.result = CalcService.square($scope.number) //thecontroller is the gateway to the view. 
+
+
+}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
